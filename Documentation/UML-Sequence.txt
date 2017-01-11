@@ -1,0 +1,74 @@
+title Smart Thésaurus Sequence Diagram
+alt Indexation
+	alt manual start
+		User->App:Start the indexation
+	else automatic start
+		note over App
+			Timer reached end
+		end note
+	end
+	opt If not connected
+		App->DataBase:Start + Connect
+	end
+	opt If K:/ selected
+		App->K:Check if available
+		K-->App:result
+		note over App
+			Return an error if 
+			K:/ is unreachable
+		end note
+	else If etml.ch selected
+		App->etml.ch: ping
+		etml.ch-->App: pong
+		note over App
+			Return an error if 
+			etml.ch is unreachable
+		end note
+	else If educanet selected
+		App->educanet: ping
+		educanet-->App: pong
+		note over App
+			Return an error and quit if 
+			etml.ch is unreachable
+		end note
+		App->educanet: Connection
+		educanet-->App:Answer
+		note over App
+			Return an error if 
+			the auth failed
+		end note
+	end
+	note over App:#Folder
+	loop Read all files
+		alt K
+			App->K:Request File metadatas
+			K-->App:Metadatas
+		else etml.ch
+			App->etml.ch:Request File metadatas
+			etml.ch-->App:Metadatas
+		else educanet
+			App->educanet:Request File metadatas
+			educanet-->App:Metadatas
+		end
+		
+		opt If this is a folder
+			App->DataBase:Add it to the folder table
+			note over App 
+				Read All files in this folder (#Folder)
+			end note
+		else If this is a file
+			App->DataBase:Add it to the file table
+		end
+	end
+else Research
+	User->App: Start a research
+	opt If not connected
+		App->DataBase:Start + Connect
+	end
+	App->DataBase:Query the database
+	DataBase-->App: Output the result
+	loop Multiples queries to get the full file path
+		App->DataBase:Query the parent of the object
+		DataBase-->App:Name + parent of the folder
+	end
+end
