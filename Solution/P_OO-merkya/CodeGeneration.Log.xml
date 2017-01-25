@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="file:///C:/PROGRAM FILES (X86)/MICROSOFT VISUAL STUDIO 14.0/COMMON7/IDE/EXTENSIONS/MICROSOFT/ARCHITECTURE TOOLS/EXTENSIBILITY/Logging/CodeGenLog.xslt"?>
+<Log xmlns="http://schemas.microsoft.com/VisualStudio/2010/CodeGen.RE.Log" Label="Génération de code/Journal de transformation de texte">
+  <MessageClass Name="Message" Label="Message" Option="Afficher les messages d'information" />
+  <MessageClass Name="Warning" Label="Avertissement" Option="Afficher les avertissements" />
+  <MessageClass Name="Error" Label="Erreur" Option="Afficher les erreurs" />
+  <MessageClass Name="Property" Label="Propriété" Option="Afficher les métadonnées" />
+  <MessageClass Name="Diagnostic" Label="Message" Option="Afficher les messages de diagnostic" />
+  <Message Timestamp="2017-01-25T09:50:42" Importance="High" Text="Génération du code ou transformation du texte démarrées." />
+  <Message Timestamp="2017-01-25T09:50:42" Importance="Diagnostic" Text="Nom = ClassTemplate" />
+  <Message Timestamp="2017-01-25T09:50:42" Importance="Diagnostic" Text="Remplacer = True" />
+  <Message Timestamp="2017-01-25T09:50:42" Importance="Diagnostic" Text="ProjectPath = ..\ModelingP_OO-merkyaLib\ModelingP_OO-merkyaLib.csproj" />
+  <Message Timestamp="2017-01-25T09:50:42" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2017-01-25T09:50:42" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2017-01-25T09:50:42" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2017-01-25T09:50:42" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2017-01-25T09:50:42" Importance="Medium" Text="La liaison de modèle de texte 'ClassTemplate' de ModelingP_OO-merkya appliquera ClassTemplate.t4 à 'ModelingP_OO-merkya::DB' -  (Class) " />
+  <Message Timestamp="2017-01-25T09:50:43" Importance="Medium" Text="Projet ajouté : F:\PROJETS\P_OO\Solution\ModelingP_OO-merkyaLib\ModelingP_OO-merkyaLib.csproj" />
+  <Message Timestamp="2017-01-25T09:50:43" Importance="Medium" Text="'ModelingP_OO-merkya::DB' -  (Class) : réussite (fichier créé) - F:\PROJETS\P_OO\Solution\ModelingP_OO-merkyaLib\GeneratedCode\DB.cs" />
+  <Message Timestamp="2017-01-25T09:50:44" Importance="Diagnostic" Text="Nom = StructTemplate" />
+  <Message Timestamp="2017-01-25T09:50:44" Importance="Diagnostic" Text="Remplacer = True" />
+  <Message Timestamp="2017-01-25T09:50:44" Importance="Diagnostic" Text="ProjectPath = ..\ModelingP_OO-merkyaLib\ModelingP_OO-merkyaLib.csproj" />
+  <Message Timestamp="2017-01-25T09:50:44" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2017-01-25T09:50:44" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2017-01-25T09:50:44" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2017-01-25T09:50:44" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 14.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2017-01-25T09:50:44" Importance="Medium" Text="La liaison de modèle de texte 'StructTemplate' de ModelingP_OO-merkya appliquera StructTemplate.t4 à 'ModelingP_OO-merkya::DB' -  (Class) " />
+  <Message Timestamp="2017-01-25T09:50:44" Importance="Diagnostic" Text="'ModelingP_OO-merkya::DB' -  (Class) : aucun fichier n'a été généré, car la méthode 'AppliesToElement' du modèle 'StructTemplate.t4' a été évaluée comme false." />
+  <Message Timestamp="2017-01-25T09:50:44" Importance="High" Text="Génération du code terminée. Erreurs : 0. Avertissements : 0." />
+</Log>
