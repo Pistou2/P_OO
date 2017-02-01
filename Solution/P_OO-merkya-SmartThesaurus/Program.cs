@@ -22,9 +22,7 @@ namespace P_OO_merkya_SmartThesaurus
             ///\todo : Initialize properly the DB
             DB test = new DB("./test.db");
 
-            //initialise the db
-            test.query(System.IO.File.ReadAllText("Resources/BD.sql"));
-            
+            DirectoryIndexation.directory("K:\\INF\\Eleves\\Temp", test);
         }
     }
 }

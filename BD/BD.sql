@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS t_files;
 DROP TABLE IF EXISTS t_folder;
 CREATE TABLE t_files(
-        idFile              int (11) NOT NULL PRIMARY KEY ,
+        idFile              INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         filName             Varchar (100) NOT NULL ,
 		filExtension		Varchar (30) NOT NULL,
         filCreationDate     Date NOT NULL ,
@@ -15,10 +15,9 @@ CREATE TABLE t_files(
 
 
 CREATE TABLE t_folder(
-        idFolder      int (11) NOT NULL PRIMARY KEY ,
+        idFolder      INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         folName       Varchar (50) NOT NULL ,
         folStillExist Boolean NOT NULL ,
 		folType		int(11) NOT NULL,
-        idParent    Int ,
-		FOREIGN KEY (idParent) REFERENCES t_folder(idFolder)
+        idParent    Int 
 );
