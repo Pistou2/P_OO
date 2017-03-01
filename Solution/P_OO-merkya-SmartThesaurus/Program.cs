@@ -20,7 +20,7 @@ namespace P_OO_merkya_SmartThesaurus
         static void Main(string[] args)
         {
             ///\todo : Initialize properly the DB
-            DB test = new DB("./test.db");
+            DB test = DB.getInstance("./test.db");
 
             DirectoryIndexation.directory("K:\\INF\\Eleves\\Temp", test);
         }

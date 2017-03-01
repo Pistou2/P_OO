@@ -12,6 +12,8 @@ using System.Text;
 using System.Data.SQLite;
 using System.Data;
 using System.IO;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace P_OO_merkya_SmartThesaurus
 {
@@ -19,14 +21,35 @@ namespace P_OO_merkya_SmartThesaurus
     ///\date 25.01.2017
     public class DB
     {
-        SQLiteConnection sqlConnection;
+        private readonly Regex UNAUTHORISED_CHAR_IN_FILES_REGEX = new Regex(@"[^\p{L}\p{N}\p{P}\p{Sc}\p{Z}]+");
+        
+
+        static SQLiteConnection sqlConnection;
+
+        // used for the singleton       
+        private static DB dbInstance;
+
+        /// <summary>
+        /// Get the single instances
+        /// </summary>
+        /// <param name="_dbPath">The path were the .db file must be registered</param>
+        /// <returns></returns>
+        public static DB getInstance(string _dbPath)
+        {
+            if (dbInstance == null)
+            {
+                dbInstance = new DB(_dbPath);
+            }
+
+            return dbInstance;
+        }
 
         /// <summary>
         /// Constructor
         /// Initialize the Database, and connect it to the given file
         /// </summary>
         /// <param name="_filePath">.db file path</param>
-        public DB(string _filePath)
+        private DB(string _filePath)
         {
             try
             {
@@ -65,8 +88,9 @@ namespace P_OO_merkya_SmartThesaurus
 
             catch (SQLiteException e)
             {
-
+                Debug.Print("SQL Error");
             }
+
             sqlConnection.Close();
             return table;
         }
@@ -74,32 +98,36 @@ namespace P_OO_merkya_SmartThesaurus
         /// <summary>
         /// Add a folder in the folder table
         /// </summary>
-        /// <param name="_folderPath"></param>
-        public void addDirectoryFolder(string _folderPath, string _parentPath)
+        /// \todo comments
+        /// <param name="_folderName"></param>
+        /// <returns>The id of the folder</returns>
+        public string addDirectoryFolder(string _folderName, string _idParent)
         {
-            string folName = _folderPath;
+            string folName = _folderName;
+            ///\todo
             string folStillExist = "1";
             string folType = Convert.ToString((int)FolderType.Directory);
-            string idParent = findParentFolder(_parentPath);
 
-            query(String.Format("INSERT INTO t_folder (folName,folStillExist,folType,idParent) VALUES (\"{0}\", {1}, {2}, {3})", folName, folStillExist, folType, idParent));
+            //get the id of the folder inputed, and return it
+            return Convert.ToString(query(String.Format("INSERT INTO t_folder (folName,folStillExist,folType,idParent) VALUES (\"{0}\", {1}, {2}, {3});\nSELECT last_insert_rowid();", folName, folStillExist, folType, _idParent)).Rows[0].ItemArray[0]);
+
         }
 
         /// <summary>
         /// Add a file in the file table
         /// </summary>
         /// <param name="_filePath"></param>
-        public void addDirectoryFile(string _filePath, string _folderPath)
+        public void addDirectoryFile(string _filePath, string _folderPath, string _idFolder)
         {
 
             string filName = "", filExtension = "";
             string filCreationDate, filModificationDate;
             string filAuthor = "", filTextContent;
-            //TODO
+            ///\todo
             string filStillExist = "1";
 
             //get the name and the extension of the file
-            string[] fileSplit = _filePath.Substring(_folderPath.Length).Split(new char[] { '.' });
+            string[] fileSplit = _filePath.Substring(_folderPath.Length + 1 /*+1 for the / */).Split(new char[] { '.' });
 
             //get the file name and extension
             #region check if there's a point to mark an extension
@@ -148,16 +176,36 @@ namespace P_OO_merkya_SmartThesaurus
 
             //get the author
             //http://stackoverflow.com/a/7445261
-            filAuthor = File.GetAccessControl(_filePath).GetOwner(typeof(System.Security.Principal.NTAccount)).ToString();
+            try
+            {
+                filAuthor = File.GetAccessControl(_filePath).GetOwner(typeof(System.Security.Principal.NTAccount)).ToString();
+            }
+            catch
+            {
+                Debug.Print("Error at finding file's author : " + _filePath);
+            }
 
             //get the text content
-            filTextContent = File.ReadAllText(_filePath);
+            try
+            {
+                filTextContent = File.ReadAllText(_filePath);
 
-            //find the parent folder id
-            string idParentFolder = findParentFolder(_folderPath);
+                //Replace all the Special chars of the file by Spaces
+                filTextContent = UNAUTHORISED_CHAR_IN_FILES_REGEX.Replace(filTextContent, "");
+
+                //escape the chars that needs it
+                //filTextContent = (new Regex(@"[\\]")).Replace(filTextContent, "\\\\");
+                filTextContent = (new Regex("[\"]")).Replace(filTextContent, "\"\"");
+            }
+            catch (Exception e)
+            {
+                filTextContent = null;
+                Debug.Print("Error at reading file's content : " + _filePath);
+            }
+
 
             //send all those datas in the t_file table
-            query(String.Format("INSERT INTO t_file (filName, filExtension, filCreationDate, filModificationDate, filAuthor, filTextContent, filStillExist, idFolder) VALUES (\"{0}\", \"{1}\", {2}, {3}, \"{4}\", \"{5}\", {6}, {7})", filName, filExtension, filCreationDate, filModificationDate, filAuthor, filTextContent, filStillExist, idParentFolder));
+            query(String.Format("INSERT INTO t_files (filName, filExtension, filCreationDate, filModificationDate, filAuthor, filTextContent, filStillExist, idFolder) VALUES (\"{0}\", \"{1}\", {2}, {3}, \"{4}\", \"{5}\", {6}, {7})", filName, filExtension, filCreationDate, filModificationDate, filAuthor, filTextContent, filStillExist, _idFolder));
         }
 
         /// <summary>
@@ -182,7 +230,7 @@ namespace P_OO_merkya_SmartThesaurus
 
                 string idCurrentFolder = Convert.ToString(query(String.Format("SELECT idFolder FROM t_folder WHERE idParent = {0} AND folName = \"{1}\"", _idParrentFolder, folderName)).Rows[0].ItemArray[0]);
 
-                //TODO 
+                ///\todo 
                 //if there's still folder under it, continue recursively
                 if (splitedPath.Length > 1 && splitedPath[1] != "")
                 {

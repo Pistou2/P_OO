@@ -1,27 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="P_OO_merkya_SmartThesaurus.Program">
-    <Position X="3.5" Y="1" Width="1.5" />
+    <Position X="0.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="P_OO_merkya_SmartThesaurus.Properties.Resources">
-    <Position X="0.5" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAABAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
-    </TypeIdentifier>
-  </Class>
   <Class Name="P_OO_merkya_SmartThesaurus.DirectoryIndexation">
-    <Position X="4" Y="3.25" Width="1.5" />
+    <Position X="2.5" Y="4.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAEAAAQAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
       <FileName>DirectoryIndexation.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="P_OO_merkya_SmartThesaurus.DB">
+    <Position X="7.25" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>wAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAIAAAAAAA=</HashCode>
+      <FileName>DB.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Enum Name="P_OO_merkya_SmartThesaurus.FolderType">
-    <Position X="7.25" Y="1.75" Width="1.5" />
+    <Position X="0.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAABAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>FolderType.cs</FileName>
