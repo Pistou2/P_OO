@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="DB.cs" />
     <Compile Include="DirectoryIndexation.cs" />
+    <Compile Include="FileExplorationType.cs" />
     <Compile Include="FolderType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +77,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Viewer.cs" />
+    <Compile Include="ViewType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

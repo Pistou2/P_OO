@@ -21,8 +21,25 @@ namespace P_OO_merkya_SmartThesaurus
     ///\date 25.01.2017
     public class DB
     {
-        private readonly Regex UNAUTHORISED_CHAR_IN_FILES_REGEX = new Regex(@"[^\p{L}\p{N}\p{P}\p{Sc}\p{Z}]+");
-        
+        /// <summary>
+        /// All carracters that are Not Letters, Numbers, Punction, Currency Symbol, Separators and tabs/spaces/cartridge return
+        /// </summary>
+        private readonly Regex UNAUTHORISED_CHAR_IN_FILES_REGEX = new Regex(@"[^\p{L}\p{N}\p{P}\p{Sc}\p{Z}\s<>]+", RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// List the extension of the files that need to not be readed
+        /// This list was obtained by simply executing the program on my SSD, and check every file that take more than 0.025 seconds to read
+        /// </summary>
+        /// \todo
+        private readonly Regex DO_NOT_READ_TEXT_EXTENSIONS = new Regex(@"^png|exe|dll|jpg|bmp|cache|jar|myd|myi|frm|so|gif|java|pyd|pyc|pyo|gbr|pgm|pat|mo|pdf|tfm|pfb|ps|bz2|tpm|xdy|wav|xlsx", RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// in Octets
+        /// </summary>
+        private long maxReadableFileSize = 10240;
+
+        ///\todo only debug thing
+        private const double TEMP_MAX_ALLOWED_TIME = 0.0025;
 
         static SQLiteConnection sqlConnection;
 
@@ -34,9 +51,9 @@ namespace P_OO_merkya_SmartThesaurus
         /// </summary>
         /// <param name="_dbPath">The path were the .db file must be registered</param>
         /// <returns></returns>
-        public static DB getInstance(string _dbPath)
+        public static DB getInstance(string _dbPath = null)
         {
-            if (dbInstance == null)
+            if (dbInstance == null && _dbPath != null)
             {
                 dbInstance = new DB(_dbPath);
             }
@@ -49,7 +66,8 @@ namespace P_OO_merkya_SmartThesaurus
         /// Initialize the Database, and connect it to the given file
         /// </summary>
         /// <param name="_filePath">.db file path</param>
-        private DB(string _filePath)
+        private DB(string _filePath)
+
         {
             try
             {
@@ -63,6 +81,7 @@ namespace P_OO_merkya_SmartThesaurus
                 throw new Exception("Could not connect to the DB");
             }
         }
+
         /// <summary>
         /// Send a Query to the Database, and return the result
         /// 
@@ -104,71 +123,68 @@ namespace P_OO_merkya_SmartThesaurus
         public string addDirectoryFolder(string _folderName, string _idParent)
         {
             string folName = _folderName;
-            ///\todo
-            string folStillExist = "1";
             string folType = Convert.ToString((int)FolderType.Directory);
 
             //get the id of the folder inputed, and return it
-            return Convert.ToString(query(String.Format("INSERT INTO t_folder (folName,folStillExist,folType,idParent) VALUES (\"{0}\", {1}, {2}, {3});\nSELECT last_insert_rowid();", folName, folStillExist, folType, _idParent)).Rows[0].ItemArray[0]);
+            return Convert.ToString(query(String.Format("INSERT INTO t_folder (folName,folType,idParent) VALUES (\"{0}\", {1}, {2});\nSELECT last_insert_rowid();", folName, folType, _idParent)).Rows[0].ItemArray[0]);
 
+        }
+
+        /// <summary>
+        /// Get a datatable containing all infos from all the files contained in a folder
+        /// </summary>
+        /// <param name="_folderID">The ID of the folder</param>
+        /// <returns>A DataTable oredered by file then file property</returns>
+        public DataTable getFiles(string _folderID)
+        {
+            return query(String.Format("SELECT * FROM t_files WHERE idFolder = {0}", _folderID));
+        }
+
+        /// <summary>
+        /// Get a datatable containing all infos from all the folders contained in a folder
+        /// </summary>
+        /// <param name="_parentFolderID">The ID of the parent folder, by default get the folders at root</param>
+        /// <returns>A DataTable oredered by file then file property</returns>
+        public DataTable getFolders(string _parentFolderID = "0")
+        {
+            return query(String.Format("SELECT * FROM t_folder WHERE idParent = {0}", _parentFolderID));
+        }
+
+        /// <summary>
+        /// Get the name of a folder
+        /// </summary>
+        /// <param name="_idFolder">Folder's ID</param>
+        /// <returns>The name of the folder</returns>
+        public string getFolderName(string _idFolder)
+        {
+            return Convert.ToString(query(String.Format("SELECT folName FROM t_folder WHERE idFolder = {0}", _idFolder)).Rows[0].ItemArray[0]);
         }
 
         /// <summary>
         /// Add a file in the file table
         /// </summary>
         /// <param name="_filePath"></param>
-        public void addDirectoryFile(string _filePath, string _folderPath, string _idFolder)
+        public void addDirectoryFile(string _filePath, string _folderPath, string _idFolder, bool _readFileContent = false)
         {
 
             string filName = "", filExtension = "";
             string filCreationDate, filModificationDate;
             string filAuthor = "", filTextContent;
-            ///\todo
-            string filStillExist = "1";
 
-            //get the name and the extension of the file
-            string[] fileSplit = _filePath.Substring(_folderPath.Length + 1 /*+1 for the / */).Split(new char[] { '.' });
 
             //get the file name and extension
-            #region check if there's a point to mark an extension
-            if (fileSplit.Length >= 1)
+            filName = new FileInfo(_filePath).Name;
+            filExtension = new FileInfo(_filePath).Extension;
+
+            //if the extension isn't empty
+            if (filExtension != "")
             {
-                #region check if there's really an extension after the point
-                if (fileSplit.Last() != "")
-                {
-                    //recombine the entire file name
-                    for (int i = 0; i < fileSplit.Length - 1; i++)
-                    {
-                        //put an dot after all except just before the extension
-                        if (i < fileSplit.Length - 2)
-                        {
-                            filName += fileSplit[i] + ".";
-                        }
-                        else
-                        {
-                            filName += fileSplit[i];
-                        }
-                    }
-                    filExtension = fileSplit.Last();
-                }
-                else
-                {
-                    //combine the entire file name
-                    for (int i = 0; i < fileSplit.Length; i++)
-                    {
-                        filName += fileSplit[i] + ".";
-                    }
-                    //set the extension to empty
-                    filExtension = "";
-                }
-                #endregion
+                //remove the extension in the name
+                filName = filName.Substring(0, filName.Length - filExtension.Length);
+
+                //remove the . in the extension            
+                filExtension = filExtension.Substring(1, filExtension.Length - 1);
             }
-            else
-            {
-                filName = fileSplit[0];
-                filExtension = "";
-            }
-            #endregion
 
             //get the dates, convert to a SQL compatible format
             filCreationDate = File.GetCreationTime(_filePath).ToString("yyyy-MM-dd");
@@ -185,33 +201,60 @@ namespace P_OO_merkya_SmartThesaurus
                 Debug.Print("Error at finding file's author : " + _filePath);
             }
 
-            //get the text content
-            try
+            //get the text content only if required, and the extension isn't in the blacklist, AND the file size
+            if (_readFileContent && !DO_NOT_READ_TEXT_EXTENSIONS.IsMatch(filExtension) && new FileInfo(_filePath).Length <= maxReadableFileSize)
             {
-                filTextContent = File.ReadAllText(_filePath);
 
-                //Replace all the Special chars of the file by Spaces
-                filTextContent = UNAUTHORISED_CHAR_IN_FILES_REGEX.Replace(filTextContent, "");
+                //Todo remove that debug line
+                //register the time before starting reading
+                DateTime temp = DateTime.Now;
 
-                //escape the chars that needs it
-                //filTextContent = (new Regex(@"[\\]")).Replace(filTextContent, "\\\\");
-                filTextContent = (new Regex("[\"]")).Replace(filTextContent, "\"\"");
+                try
+                {
+
+
+                    filTextContent = File.ReadAllText(_filePath);
+
+                    //Remove all the Special chars of the file
+                    filTextContent = UNAUTHORISED_CHAR_IN_FILES_REGEX.Replace(filTextContent, "");
+
+                    //escape the chars that needs it
+                    //filTextContent = (new Regex(@"[\\]")).Replace(filTextContent, "\\\\");
+                    filTextContent = (new Regex("[\"]")).Replace(filTextContent, "\"\"");
+                }
+                catch (Exception e)
+                {
+                    filTextContent = null;
+                    Debug.Print("Error at reading file's content : " + _filePath);
+                }
+
+                //TODO
+                //output it if this is bigger than a certain amount
+                TimeSpan timespan = DateTime.Now - temp;
+
+
+                if (timespan.TotalSeconds > TEMP_MAX_ALLOWED_TIME)
+                {
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.WriteLine(String.Format(".{0} : {1} secs", filExtension, timespan.TotalSeconds));
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ReadLine();
+
+                }
             }
-            catch (Exception e)
+            else
             {
-                filTextContent = null;
-                Debug.Print("Error at reading file's content : " + _filePath);
+                filTextContent = "";
             }
 
 
             //send all those datas in the t_file table
-            query(String.Format("INSERT INTO t_files (filName, filExtension, filCreationDate, filModificationDate, filAuthor, filTextContent, filStillExist, idFolder) VALUES (\"{0}\", \"{1}\", {2}, {3}, \"{4}\", \"{5}\", {6}, {7})", filName, filExtension, filCreationDate, filModificationDate, filAuthor, filTextContent, filStillExist, _idFolder));
+            query(String.Format("INSERT INTO t_files (filName, filExtension, filCreationDate, filModificationDate, filAuthor, filTextContent, idFolder) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\", \"{4}\", \"{5}\", {6})", filName, filExtension, filCreationDate, filModificationDate, filAuthor, filTextContent, _idFolder));
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// \todo check if does really work
         /// <param name="_path"></param>
         /// <param name="_idParrentFolder"></param>
         private string findParentFolder(string _path, string _idParrentFolder = "0")

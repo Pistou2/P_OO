@@ -1,1 +1,8 @@
 ~$*
+*.exe
+*UpgradeLog*
+*.cache
+*.pdb
+.suo
+.db
+*FileListAbsolute*
