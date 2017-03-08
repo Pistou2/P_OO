@@ -5,7 +5,7 @@ using System.Text;
 
 namespace P_OO_merkya_SmartThesaurus
 {
-    public enum FolderType
+    public enum FileOrigin
     {
         Directory,
         Web,

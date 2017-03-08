@@ -1,23 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="P_OO_merkya_SmartThesaurus.Program">
-    <Position X="0.5" Y="1.5" Width="1.5" />
+    <Position X="7" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="P_OO_merkya_SmartThesaurus.DirectoryIndexation">
-    <Position X="2.5" Y="4.5" Width="1.75" />
+  <Class Name="P_OO_merkya_SmartThesaurus.DirectoryIndexation" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="5.25" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAgQAAEAAAAAAAQAACAIAAAAAAAACAAABAAA=</HashCode>
       <FileName>DirectoryIndexation.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="P_OO_merkya_SmartThesaurus.DB">
-    <Position X="8.5" Y="1.25" Width="3" />
+    <Position X="3.5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>yAAAAAAAAAAAAEAABAAIAQAAAAAAEAQAAAAICAAAAAA=</HashCode>
+      <HashCode>SAAAIAAAAgAAAAAABAAIAAAAAAAAEAQAAAAICAAAAAA=</HashCode>
       <FileName>DB.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -25,7 +26,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="P_OO_merkya_SmartThesaurus.Viewer">
-    <Position X="5.25" Y="1.75" Width="1.5" />
+    <Position X="0.5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAQABAAAAAAAAAA=</HashCode>
       <FileName>Viewer.cs</FileName>
@@ -34,22 +35,37 @@
       <Field Name="viewerInstance" />
     </ShowAsAssociation>
   </Class>
-  <Enum Name="P_OO_merkya_SmartThesaurus.FolderType">
-    <Position X="0.5" Y="3" Width="1.5" />
+  <Class Name="P_OO_merkya_SmartThesaurus.WebIndexation">
+    <Position X="7.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WebIndexation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="P_OO_merkya_SmartThesaurus.IIndexation">
+    <Position X="5.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>IIndexation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="P_OO_merkya_SmartThesaurus.FileOrigin">
+    <Position X="10" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAABAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>FolderType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="P_OO_merkya_SmartThesaurus.ViewType">
-    <Position X="3" Y="2" Width="1.75" />
+    <Position X="9.25" Y="5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAIAgAAAAACAAA=</HashCode>
       <FileName>ViewType.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="P_OO_merkya_SmartThesaurus.FileExplorationType">
-    <Position X="5.5" Y="5.25" Width="1.75" />
+    <Position X="1.75" Y="5.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
       <FileName>FileExplorationType.cs</FileName>

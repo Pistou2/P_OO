@@ -4,5 +4,5 @@
 *.cache
 *.pdb
 .suo
-.db
+*.db
 *FileListAbsolute*

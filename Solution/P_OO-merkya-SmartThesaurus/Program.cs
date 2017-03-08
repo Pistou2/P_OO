@@ -22,7 +22,11 @@ namespace P_OO_merkya_SmartThesaurus
             ///\todo : Initialize properly the DB
             DB test = DB.getInstance("./test.db");
 
-            DirectoryIndexation.exploration("K:\\INF\\Eleves\\Temp");
+            DirectoryIndexation explo = new DirectoryIndexation();
+
+            //explo.index(@"K:/INF/Eleves/Temp",FileExplorationType.Full);
+
+            explo.index(@"C:/Users/merkya/Desktop/Temp",FileExplorationType.Full_And_File_Contents);
 
             //DirectoryIndexation.exploration("E:\\",FileExplorationType.Full);
             Viewer.getInstance().show();

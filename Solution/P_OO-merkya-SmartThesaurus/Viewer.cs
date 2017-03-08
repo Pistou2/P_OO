@@ -8,12 +8,16 @@ namespace P_OO_merkya_SmartThesaurus
 {
     public class Viewer
     {
+        /// <summary>
+        /// 
+        /// Singleton
+        /// </summary>
         private static Viewer viewerInstance;
 
         /// <summary>
         /// 
         /// </summary>
-        /// \todo types and comments
+        /// \todo comments and convert that to a form
         /// <param name="_idStartingFolder"></param>
         /// <param name="_type"></param>
         /// <param name="_tempConsoleCurrentTabulation">Temporary, need to be changed (todo)</param>
@@ -34,7 +38,7 @@ namespace P_OO_merkya_SmartThesaurus
                 foreach (DataRow file in fileDataTable.Rows)
                 {
                     //output his name
-                    Console.WriteLine(_tempConsoleCurrentTabulation + "|-" + file.ItemArray[1]);
+                    Console.WriteLine(_tempConsoleCurrentTabulation + "|-" + file.ItemArray[1] + "." + file.ItemArray[2]);
                 }
             }
 
@@ -56,6 +60,9 @@ namespace P_OO_merkya_SmartThesaurus
             }
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         private Viewer()
         {
 

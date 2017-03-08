@@ -6,40 +6,18 @@
  * \brief     Class used to connect and query the SQLite Database
  */
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.SQLite;
 using System.Data;
-using System.IO;
+using System.Data.SQLite;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 
 namespace P_OO_merkya_SmartThesaurus
 {
-    ///<summary>Database class, handling the connection and the querries</summary>
-    ///\date 25.01.2017
+    /// <summary>
+    /// Database class, handling the connection and the querries
+    /// Singleton
+    /// </summary>
     public class DB
     {
-        /// <summary>
-        /// All carracters that are Not Letters, Numbers, Punction, Currency Symbol, Separators and tabs/spaces/cartridge return
-        /// </summary>
-        private readonly Regex UNAUTHORISED_CHAR_IN_FILES_REGEX = new Regex(@"[^\p{L}\p{N}\p{P}\p{Sc}\p{Z}\s<>]+", RegexOptions.IgnoreCase);
-
-        /// <summary>
-        /// List the extension of the files that need to not be readed
-        /// This list was obtained by simply executing the program on my SSD, and check every file that take more than 0.025 seconds to read
-        /// </summary>
-        /// \todo
-        private readonly Regex DO_NOT_READ_TEXT_EXTENSIONS = new Regex(@"^png|exe|dll|jpg|bmp|cache|jar|myd|myi|frm|so|gif|java|pyd|pyc|pyo|gbr|pgm|pat|mo|pdf|tfm|pfb|ps|bz2|tpm|xdy|wav|xlsx", RegexOptions.IgnoreCase);
-
-        /// <summary>
-        /// in Octets
-        /// </summary>
-        private long maxReadableFileSize = 10240;
-
-        ///\todo only debug thing
-        private const double TEMP_MAX_ALLOWED_TIME = 0.0025;
 
         static SQLiteConnection sqlConnection;
 
@@ -47,7 +25,7 @@ namespace P_OO_merkya_SmartThesaurus
         private static DB dbInstance;
 
         /// <summary>
-        /// Get the single instances
+        /// Get the single instance
         /// </summary>
         /// <param name="_dbPath">The path were the .db file must be registered</param>
         /// <returns></returns>
@@ -120,14 +98,30 @@ namespace P_OO_merkya_SmartThesaurus
         /// \todo comments
         /// <param name="_folderName"></param>
         /// <returns>The id of the folder</returns>
-        public string addDirectoryFolder(string _folderName, string _idParent)
+        public string addFolder(string _folderName, string _idParent, FileOrigin _origin)
         {
             string folName = _folderName;
-            string folType = Convert.ToString((int)FolderType.Directory);
+            string folType = Convert.ToString((int)_origin);
 
             //get the id of the folder inputed, and return it
             return Convert.ToString(query(String.Format("INSERT INTO t_folder (folName,folType,idParent) VALUES (\"{0}\", {1}, {2});\nSELECT last_insert_rowid();", folName, folType, _idParent)).Rows[0].ItemArray[0]);
 
+        }
+
+        /// <summary>
+        /// Add a file to the database's file table
+        /// </summary>
+        /// <param name="_filName">The name of the file</param>
+        /// <param name="_filExtension">his extension (without the .)</param>
+        /// <param name="_filCreationDate">His creation date, in SQL format</param>
+        /// <param name="_filModificationDate">His last modification date, in SQL format</param>
+        /// <param name="_filAuthor">the file's author. With "" around the text, or just NULL</param>
+        /// <param name="_filSize">Size of the file, in octet</param>
+        /// <param name="_filTextContent">the text content. With "" around the text, or just NULL</param>
+        /// <param name="_idFolder">the id of the parent folder</param>
+        public void addFile(string _filName, string _filExtension, string _filCreationDate, string _filModificationDate, string _filAuthor, string _filSize, string _filTextContent, string _idFolder)
+        {
+            query(String.Format("INSERT INTO t_files (filName, filExtension, filCreationDate, filModificationDate, filAuthor, filSize, filTextContent, idFolder) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\", {4}, {5}, {6}, {7})", _filName, _filExtension, _filCreationDate, _filModificationDate, _filAuthor, _filSize, _filTextContent, _idFolder));
         }
 
         /// <summary>
@@ -158,98 +152,6 @@ namespace P_OO_merkya_SmartThesaurus
         public string getFolderName(string _idFolder)
         {
             return Convert.ToString(query(String.Format("SELECT folName FROM t_folder WHERE idFolder = {0}", _idFolder)).Rows[0].ItemArray[0]);
-        }
-
-        /// <summary>
-        /// Add a file in the file table
-        /// </summary>
-        /// <param name="_filePath"></param>
-        public void addDirectoryFile(string _filePath, string _folderPath, string _idFolder, bool _readFileContent = false)
-        {
-
-            string filName = "", filExtension = "";
-            string filCreationDate, filModificationDate;
-            string filAuthor = "", filTextContent;
-
-
-            //get the file name and extension
-            filName = new FileInfo(_filePath).Name;
-            filExtension = new FileInfo(_filePath).Extension;
-
-            //if the extension isn't empty
-            if (filExtension != "")
-            {
-                //remove the extension in the name
-                filName = filName.Substring(0, filName.Length - filExtension.Length);
-
-                //remove the . in the extension            
-                filExtension = filExtension.Substring(1, filExtension.Length - 1);
-            }
-
-            //get the dates, convert to a SQL compatible format
-            filCreationDate = File.GetCreationTime(_filePath).ToString("yyyy-MM-dd");
-            filModificationDate = File.GetLastWriteTime(_filePath).ToString("yyyy-MM-dd");
-
-            //get the author
-            //http://stackoverflow.com/a/7445261
-            try
-            {
-                filAuthor = File.GetAccessControl(_filePath).GetOwner(typeof(System.Security.Principal.NTAccount)).ToString();
-            }
-            catch
-            {
-                Debug.Print("Error at finding file's author : " + _filePath);
-            }
-
-            //get the text content only if required, and the extension isn't in the blacklist, AND the file size
-            if (_readFileContent && !DO_NOT_READ_TEXT_EXTENSIONS.IsMatch(filExtension) && new FileInfo(_filePath).Length <= maxReadableFileSize)
-            {
-
-                //Todo remove that debug line
-                //register the time before starting reading
-                DateTime temp = DateTime.Now;
-
-                try
-                {
-
-
-                    filTextContent = File.ReadAllText(_filePath);
-
-                    //Remove all the Special chars of the file
-                    filTextContent = UNAUTHORISED_CHAR_IN_FILES_REGEX.Replace(filTextContent, "");
-
-                    //escape the chars that needs it
-                    //filTextContent = (new Regex(@"[\\]")).Replace(filTextContent, "\\\\");
-                    filTextContent = (new Regex("[\"]")).Replace(filTextContent, "\"\"");
-                }
-                catch (Exception e)
-                {
-                    filTextContent = null;
-                    Debug.Print("Error at reading file's content : " + _filePath);
-                }
-
-                //TODO
-                //output it if this is bigger than a certain amount
-                TimeSpan timespan = DateTime.Now - temp;
-
-
-                if (timespan.TotalSeconds > TEMP_MAX_ALLOWED_TIME)
-                {
-                    Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine(String.Format(".{0} : {1} secs", filExtension, timespan.TotalSeconds));
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.ReadLine();
-
-                }
-            }
-            else
-            {
-                filTextContent = "";
-            }
-
-
-            //send all those datas in the t_file table
-            query(String.Format("INSERT INTO t_files (filName, filExtension, filCreationDate, filModificationDate, filAuthor, filTextContent, idFolder) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\", \"{4}\", \"{5}\", {6})", filName, filExtension, filCreationDate, filModificationDate, filAuthor, filTextContent, _idFolder));
         }
 
         /// <summary>
