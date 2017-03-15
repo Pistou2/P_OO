@@ -1,9 +1,7 @@
-﻿/**
+﻿/** ETML
  * \file      DB.cs   
  * \author    Merk Yann
- * \version   1.0
- * \date      25.01.2017
- * \brief     Class used to connect and query the SQLite Database
+ * \brief     Contains the class used to connect and query the SQLite Database
  */
 using System;
 using System.Data;

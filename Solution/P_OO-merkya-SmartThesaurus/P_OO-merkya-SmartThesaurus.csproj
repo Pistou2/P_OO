@@ -69,7 +69,7 @@
     <Compile Include="DB.cs" />
     <Compile Include="DirectoryIndexation.cs" />
     <Compile Include="FileExplorationType.cs" />
-    <Compile Include="FolderType.cs" />
+    <Compile Include="FileOrigin.cs" />
     <Compile Include="IIndexation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="Viewer.cs" />
     <Compile Include="ViewType.cs" />
+    <Compile Include="WebIndexation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

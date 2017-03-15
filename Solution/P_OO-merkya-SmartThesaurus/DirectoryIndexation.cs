@@ -1,8 +1,6 @@
-﻿/**
+﻿/** ETML
  * \file      DirectoryIndexation.cs   
  * \author    Merk Yann
- * \version   1.0
- * \date      08.03.2017
  * \brief     contains the Class used to index local files
  */
 using System;
@@ -53,7 +51,7 @@ namespace P_OO_merkya_SmartThesaurus
             string[] splitedPath = _finalPath.Split(new char[] { '/', '\\' }, 2);
 
             //Add the folder to the database
-            string idFolder = database.addFolder(splitedPath[0], _previousFolderID, FileOrigin.Directory);
+            string idFolder = database.addFolder(splitedPath[0], _previousFolderID, FileOrigin.Local);
 
             if (splitedPath.Length > 1)
             {
@@ -111,7 +109,7 @@ namespace P_OO_merkya_SmartThesaurus
                 if (!_firstIteration)
                 {
                     //don't add it to the first iteration
-                    folderID = database.addFolder(folderName, _parentID, FileOrigin.Directory);
+                    folderID = database.addFolder(folderName, _parentID, FileOrigin.Local);
                 }
                 else
                 {

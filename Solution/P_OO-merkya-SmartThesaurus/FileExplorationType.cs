@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿/** ETML
+ * \file      FileExplorationType.cs   
+ * \author    Merk Yann
+ * \brief     Contains an enum defining what kind of exploration needs to run
+ */
 namespace P_OO_merkya_SmartThesaurus
 {
     /// <summary>

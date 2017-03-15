@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿/** ETML
+ * \file      IIndexation.cs   
+ * \author    Merk Yann
+ * \brief     Contains the Interface for all the different indexation types
+ */
 namespace P_OO_merkya_SmartThesaurus
 {
     public interface IIndexation

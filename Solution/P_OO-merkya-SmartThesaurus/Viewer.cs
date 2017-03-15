@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/** ETML
+ * \file      Viewer.cs   
+ * \author    Merk Yann
+ * \brief     Contains the class used to display the current content of the DB
+ */
+using System;
 using System.Data;
-using System.Linq;
-using System.Text;
 
 namespace P_OO_merkya_SmartThesaurus
 {
