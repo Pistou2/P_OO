@@ -194,7 +194,7 @@ namespace P_OO_merkya_SmartThesaurus
                 }
                 catch
                 {
-                    filAuthor = "NULL";
+                    filAuthor = null;
                     Debug.Print("Error at finding file's author : " + _filePath);
                 }
 
@@ -214,29 +214,28 @@ namespace P_OO_merkya_SmartThesaurus
                         //escape the chars that needs it
                         //filTextContent = (new Regex(@"[\\]")).Replace(filTextContent, "\\\\");
                         filTextContent = (new Regex("[\"]")).Replace(filTextContent, "\"\"");
-                        filTextContent = '"' + filTextContent + '"';
                     }
                     catch (Exception e)
                     {
-                        filTextContent = "NULL";
+                        filTextContent = null;
                         Debug.Print("Error at reading file's content : " + _filePath);
                     }
                 }
                 else
                 {
-                    filTextContent = "NULL";
+                    filTextContent = null;
                 }
             }
             else
             {
-                filAuthor = "NULL";
-                filSize = "NULL";
-                filTextContent = "NULL";
+                filAuthor = null;
+                filSize = null;
+                filTextContent = null;
             }
 
 
             //send all those datas in the database
-            DB.getInstance().addFile(filName, filExtension, filCreationDate, filModificationDate, filAuthor, filSize, filTextContent, _idFolder);
+            DB.getInstance().addFile(filName, filExtension, _idFolder, filTextContent, filCreationDate, filModificationDate, filAuthor, filSize);
 
         }
     }

@@ -107,6 +107,26 @@ namespace P_OO_merkya_SmartThesaurus
         }
 
         /// <summary>
+        /// Try to get the ID of a folder a the inputed location and name
+        /// </summary>
+        /// <param name="_folderName">The name of the folder</param>
+        /// <param name="_idParent">The id of the folder's parent</param>
+        /// <returns>The ID of the folder, or null if not found</returns>
+        public string searchFolder(string _folderName, string _idParent)
+        {
+            DataTable answer = query(String.Format("SELECT idFolder FROM t_folder WHERE folname = {0} AND idParent = {1}", _folderName, _idParent));
+
+            if(answer.Rows.Count!= 0)
+            {
+                return Convert.ToString(answer.Rows[0].ItemArray[0]);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Add a file to the database's file table
         /// </summary>
         /// <param name="_filName">The name of the file</param>
@@ -115,11 +135,46 @@ namespace P_OO_merkya_SmartThesaurus
         /// <param name="_filModificationDate">His last modification date, in SQL format</param>
         /// <param name="_filAuthor">the file's author. With "" around the text, or just NULL</param>
         /// <param name="_filSize">Size of the file, in octet</param>
-        /// <param name="_filTextContent">the text content. With "" around the text, or just NULL</param>
+        /// <param name="_filTextContent">the text content.</param>
         /// <param name="_idFolder">the id of the parent folder</param>
-        public void addFile(string _filName, string _filExtension, string _filCreationDate, string _filModificationDate, string _filAuthor, string _filSize, string _filTextContent, string _idFolder)
+        public void addFile(string _filName, string _filExtension, string _idFolder, string _filTextContent = null, string _filCreationDate = null, string _filModificationDate = null, string _filAuthor = null, string _filSize = null)
         {
-            query(String.Format("INSERT INTO t_files (filName, filExtension, filCreationDate, filModificationDate, filAuthor, filSize, filTextContent, idFolder) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\", {4}, {5}, {6}, {7})", _filName, _filExtension, _filCreationDate, _filModificationDate, _filAuthor, _filSize, _filTextContent, _idFolder));
+            #region Handle the null values
+            if (_filTextContent == null)
+            {
+                _filTextContent = "NULL";
+            }
+            else
+            {
+                _filTextContent = '"' + _filTextContent + '"';
+            }
+
+            if (_filCreationDate == null)
+            {
+                _filCreationDate = "NULL";
+            }
+
+            if (_filModificationDate == null)
+            {
+                _filModificationDate = "NULL";
+            }
+
+            if (_filAuthor == null)
+            {
+                _filAuthor = "NULL";
+            }
+            else
+            {
+                _filAuthor = '"' + _filAuthor + '"';
+            }
+
+            if (_filSize == null)
+            {
+                _filSize = "NULL";
+            }
+            #endregion
+
+            query(String.Format("INSERT INTO t_files (filName, filExtension, filCreationDate, filModificationDate, filAuthor, filSize, filTextContent, idFolder) VALUES (\"{0}\", \"{1}\", {2}, {3}, {4}, {5}, {6}, {7})", _filName, _filExtension, _filCreationDate, _filModificationDate, _filAuthor, _filSize, _filTextContent, _idFolder));
         }
 
         /// <summary>

@@ -4,7 +4,7 @@ CREATE TABLE t_files(
 		idFile				 INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		filName				 Varchar (100) NOT NULL ,
 		filExtension		 Varchar (30) NOT NULL,
-		filCreationDate		 Date NOT NULL ,
+		filCreationDate		 Date ,
 		filModificationDate	 Date,
 		filAuthor			 Varchar (40) ,
 		filSize				 INTEGER,
