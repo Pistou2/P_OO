@@ -170,7 +170,7 @@ namespace P_OO_merkya_SmartThesaurus
         /// Get or create a folder to host the file inputed, and return his ID
         /// </summary>
         /// \todo
-        /// <param name="_fileLocation">The path of the file</param>
+        /// <param name="_fileLocation">The path of the file , always starting and ending by a /</param>
         /// <returns>The ID of the folder in which to put the file</returns>
         private string getFolderID(string _fileLocation, string _idParentFolder)
         {
@@ -184,12 +184,43 @@ namespace P_OO_merkya_SmartThesaurus
             if (_fileLocation.Split('/').Count() > 3)
             {
                 //recurse without the last part
-                //TODO
+                string[] splitArray = _fileLocation.Split('/');
+                int splitSize = splitArray.Count();
+                string recurseString = "/";
+
+                //Go through all the text (skips the empty values at start and end)
+                for (int i = 1; i < splitSize - 2; i++)
+                {
+                    recurseString += splitArray + "/";
+                }
+
+                //get the correct id of the parent
+                _idParentFolder = getFolderID(recurseString, _idParentFolder);
+
+                //set the name correctly
+                _fileLocation = splitArray[splitSize - 2];
+            }
+            else
+            {
+                //else remove the / in the name
+                _fileLocation = _fileLocation.Split('/')[1];
+
             }
 
             //Try to find the folder
             DB database = DB.getInstance();
-            string folderID = database.searchFolder()
+            string folderID = database.searchFolder(_fileLocation, _idParentFolder);
+
+            //if it doesn't exist, create it
+            if(folderID==null)
+            {
+                return DB.getInstance().addFolder(_fileLocation, _idParentFolder, FileOrigin.Web);
+            }
+            else
+            {
+                //else simply return it
+                return folderID;
+            }
         }
 
         /// <summary>
