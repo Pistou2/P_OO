@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:temp_Interface"
         mc:Ignorable="d"
-        Title="Indexer un dossier local" Height="173.668" Width="182.001">
-    <Grid>
+        Title="Indexer un dossier local" Height="173.668" Width="280.335">
+    <Grid Margin="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto" MinHeight="45"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" MinHeight="50"/>
+            <RowDefinition Height="Auto" MinHeight="21.96"/>
         </Grid.RowDefinitions>
         <Grid d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
             <Grid.ColumnDefinitions>
@@ -49,6 +49,18 @@
                 <ListBoxItem Content="Partiel" Height="20"/>
                 <ListBoxItem Content="Complet" Height="20"/>
             </ListBox>
+        </Grid>
+        <Grid Margin="0" Grid.Row="2" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="59*"/>
+                <ColumnDefinition Width="30*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnStart" Content="Go" Grid.Column="1" Grid.Row="2" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin"/>
         </Grid>
 
     </Grid>

@@ -20,7 +20,7 @@
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="63*"/>
             </Grid.RowDefinitions>
-            <TextBox x:Name="txtBSearch" TextWrapping="Wrap" Text="&#xD;&#xA;" d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin" MaxLines="1" KeyDown="txtBSearch_KeyDown" ToolTip="Entrer un terme à rechercher puis appuyer sur Enter" GotFocus="txtBSearch_GotFocus" LostFocus="txtBSearch_LostFocus"/>
+            <TextBox x:Name="txtBSearch" TextWrapping="Wrap" Text="&#xD;&#xA;" d:LayoutOverrides="LeftMargin, RightMargin" MaxLines="1" KeyDown="txtBSearch_KeyDown" ToolTip="Entrer un terme à rechercher puis appuyer sur Enter" GotFocus="txtBSearch_GotFocus" LostFocus="txtBSearch_LostFocus" Margin="0,0,0,5"/>
             <DataGrid x:Name="dataGrid" Grid.Row="1">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{x:Null}" CanUserReorder="False" ClipboardContentBinding="{x:Null}" Header="Nom de fichier" Width="4*"/>
@@ -39,11 +39,14 @@
                 <RowDefinition Height="7*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="16*"/>
-                <ColumnDefinition Width="131*" MinWidth="130"/>
-                <ColumnDefinition Width="375*"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="2*" MinWidth="130"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*" MinWidth="130"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="button" Content="Indexer un dossier local" Grid.Column="1" Grid.Row="1" ToolTip="Indexer un dossier local" Padding="0"/>
+            <Button x:Name="btnLocalIndex" Content="Indexer un dossier local" Grid.Column="1" Grid.Row="1" ToolTip="Indexer un dossier local" Padding="0"/>
+            <Button x:Name="btnWebIndex" Content="Indexer un site Web" Grid.Column="3" Grid.Row="1" ToolTip="Indexer un dossier local" Padding="0"/>
         </Grid>
 
     </Grid>
