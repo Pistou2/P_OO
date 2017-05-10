@@ -6,3 +6,13 @@
 .suo
 *.db
 *FileListAbsolute*
+*.targets
+
+*.dll
+
+*.nupkg
+
+*.dll.config
+packages
+*.pdb
+*.Cache
