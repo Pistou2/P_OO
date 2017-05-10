@@ -16,3 +16,7 @@
 packages
 *.pdb
 *.Cache
+*TemporaryGeneratedFile*
+[dD]ebug
+[bB]in
+[rR]elease
