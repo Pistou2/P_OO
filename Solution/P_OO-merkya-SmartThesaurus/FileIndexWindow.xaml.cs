@@ -1,4 +1,9 @@
-﻿using System;
+﻿/** ETML
+ * \file      WebIndexWindow.xaml.cs   
+ * \author    Merk Yann
+ * \brief     Window used to start a web indexation
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,16 +17,42 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace temp_Interface
+namespace P_OO_merkya_SmartThesaurus
 {
     /// <summary>
-    /// Logique d'interaction pour Window1.xaml
+    /// Logic Window1.xaml
     /// </summary>
     public partial class FileIndexWindow : Window
     {
+        FileIndexation fileIndexer;
+
         public FileIndexWindow()
         {
             InitializeComponent();
+
+        }
+
+        /// <summary>
+        /// Start the indexation
+        /// </summary>
+        /// \todo Check the path
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            fileIndexer = new FileIndexation();
+
+            //check what type is selected
+            FileExplorationType explorationType;
+
+            if (((string)((ListBoxItem)listBox.SelectedItem).Content) == "Complet")
+            {
+                explorationType = FileExplorationType.Full_And_File_Contents;
+            }
+            else
+            {
+                explorationType = FileExplorationType.Full;
+            }
+
+            fileIndexer.index(txtBLocation.Text, explorationType);
         }
     }
 }

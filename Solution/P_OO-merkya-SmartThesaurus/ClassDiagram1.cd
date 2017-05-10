@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="P_OO_merkya_SmartThesaurus.DB">
+    <Position X="4" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SAAIIAAAAgAAAAAABAAIAAAAAAAAEAQAAAAICAAAAAA=</HashCode>
+      <FileName>DB.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="dbInstance" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="P_OO_merkya_SmartThesaurus.FileIndexation" BaseTypeListCollapsed="true">
+    <Position X="6.25" Y="4.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgQAAEBAAAAAAQAACAIAAAAAAAACAAABAAA=</HashCode>
+      <FileName>FileIndexation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="database" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="P_OO_merkya_SmartThesaurus.FileIndexWindow" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FileIndexWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="fileIndexer" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="P_OO_merkya_SmartThesaurus.MainWindow" BaseTypeListCollapsed="true">
+    <Position X="4" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAABEACAgAAAAAAAEAAAAIIAAAAAAAIA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="database" />
+      <Field Name="fileWindow" />
+      <Field Name="webWindow" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="P_OO_merkya_SmartThesaurus.WebIndexation" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="4.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAgABAAAAAAAABAAIAAAAAAAAAAAABAgI=</HashCode>
+      <FileName>WebIndexation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="database" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="P_OO_merkya_SmartThesaurus.WebIndexWindow" BaseTypeListCollapsed="true">
+    <Position X="1.5" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WebIndexWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="webIndexer" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="P_OO_merkya_SmartThesaurus.Properties.Resources" Collapsed="true">
+    <Position X="10.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="P_OO_merkya_SmartThesaurus.IIndexation" Collapsed="true">
+    <Position X="10.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>IIndexation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="P_OO_merkya_SmartThesaurus.FileExplorationType" Collapsed="true">
+    <Position X="10.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>FileExplorationType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="P_OO_merkya_SmartThesaurus.FileOrigin" Collapsed="true">
+    <Position X="12" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FileOrigin.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="P_OO_merkya_SmartThesaurus.ViewType" Collapsed="true">
+    <Position X="10.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAIAgAAAAACAAA=</HashCode>
+      <FileName>ViewType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

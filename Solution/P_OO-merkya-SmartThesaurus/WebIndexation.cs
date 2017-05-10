@@ -38,6 +38,8 @@ namespace P_OO_merkya_SmartThesaurus
         //http://stackoverflow.com/a/569189
         private readonly Regex DOMAIN_FINDER = new Regex(@"^(?:http[s]?://)?(?:www\.)?(.*?\.[^/]*)");
 
+        DB database;
+
         /// <summary>
         /// Start the indexation of the website applying the mode inputed
         /// </summary>
@@ -72,7 +74,7 @@ namespace P_OO_merkya_SmartThesaurus
                 }
 
                 //add the root folder to the DB
-                DB database = DB.getInstance();
+                database = DB.getInstance();
 
                 string idParentFolder = database.addFolder(_url, "0", FileOrigin.Web);
 
@@ -208,11 +210,11 @@ namespace P_OO_merkya_SmartThesaurus
             }
 
             //Try to find the folder
-            DB database = DB.getInstance();
+            database = DB.getInstance();
             string folderID = database.searchFolder(_fileLocation, _idParentFolder);
 
             //if it doesn't exist, create it
-            if(folderID==null)
+            if (folderID == null)
             {
                 return DB.getInstance().addFolder(_fileLocation, _idParentFolder, FileOrigin.Web);
             }
